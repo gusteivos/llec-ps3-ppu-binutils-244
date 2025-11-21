@@ -5634,8 +5634,13 @@ opd_entry_value (asection *opd_sec,
 	{
 	  Elf_Internal_Shdr *symtab_hdr = &elf_symtab_hdr (opd_bfd);
 
-	  if (ELF64_R_TYPE (look->r_info) == R_PPC64_ADDR64
-	      && ELF64_R_TYPE ((look + 1)->r_info) == R_PPC64_TOC)
+		if (
+			(ELF64_R_TYPE (look->r_info) == R_PPC64_ADDR64
+			&& ELF64_R_TYPE ((look + 1)->r_info) == R_PPC64_TOC)
+#ifdef __PSL1GHT_TARGET__
+			|| ELF64_R_TYPE (look->r_info) == R_PPC64_ADDR32
+#endif
+			)
 	    {
 	      unsigned long symndx = ELF64_R_SYM (look->r_info);
 	      asection *sec = NULL;
@@ -7448,9 +7453,17 @@ ppc64_elf_edit_opd (struct bfd_link_info *info)
 		 Also, there's nothing to prevent someone putting
 		 something silly in .opd with the assembler.  No .opd
 		 optimization for them!  */
+#ifdef __PSL1GHT_TARGET__
+		if (rel + 1 == relend
+			&& ELF64_R_TYPE (rel[0].r_info) == R_PPC64_ADDR32)
+			goto psl1ght_broken_opd;
+#endif
 	    broken_opd:
 	      _bfd_error_handler
 		(_("%pB: .opd is not a regular array of opd entries"), ibfd);
+#ifdef __PSL1GHT_TARGET__
+	    psl1ght_broken_opd:
+#endif
 	      broken = true;
 	      break;
 	    }
