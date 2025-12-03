@@ -1150,7 +1150,7 @@ case "${targ}" in
     targ_selvecs="powerpc_elf64_le_vec powerpc_elf32_vec powerpc_elf32_le_vec rs6000_xcoff_vec rs6000_xcoff64_vec rs6000_xcoff64_aix_vec"
     want64=true
     case $targ in
-      *-PSL1GHT-*) targ_cflags=-D__PSL1GHT_TARGET__ ;;
+      *-PSL1GHT-elf* | *-ps3-elf*) targ_cflags=-D__PSL1GHT_TARGET__ ;;
     esac
     ;;
   powerpc64le-*-elf* | powerpcle-*-elf64* | powerpc64le-*-linux* | \
