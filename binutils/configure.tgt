@@ -36,7 +36,7 @@ case "${targ}" in
         targ_emul_vector=bin_aix_emulation
         ;;
 
-    *-PSL1GHT-elf*)
+    powerpc64-PSL1GHT-elf*)
         targ_emul=vanilla
         targ_emul_vector=bin_vanilla_emulation
         targ_cflags=-D__PSL1GHT_TARGET__
